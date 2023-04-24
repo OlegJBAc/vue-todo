@@ -2,6 +2,7 @@
   <div class="app">
     <h1>Страница с постами</h1>
     <my-button @click="showDialog" style="margin: 15px 0">Создать пост</my-button>
+    <my-button @click="fetchPosts" style="margin: 15px 0">Получить посты</my-button>
     <my-dialog v-model:show="dialogVisible">
       <PostForm @createPost="createPost"/>
     </my-dialog>
@@ -20,6 +21,7 @@ import PostForm from "./components/PostForm.vue";
 import PostList from "./components/PostList.vue";
 import MyDialog from "./components/UI/MyDialog.vue";
 import MyButton from "./components/UI/MyButton.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -50,7 +52,19 @@ export default {
     showDialog() {
       this.dialogVisible = true
     },
-
+    async fetchPosts() {
+      try {
+        setTimeout(async () => {
+          const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+          this.posts = response.data
+        }, 1000)
+      } catch (e) {
+        console.error('Request failed')
+      }
+    },
+  },
+  mounted() {
+    this.fetchPosts()
   }
 }
 
