@@ -10,7 +10,7 @@
     <div class="app__buttons">
       <my-button @click="showDialog">Создать пост</my-button>
       <my-select
-          v-model="sortedPosts"
+          v-model="selectedSort"
           :options="sortOptions"
       />
     </div>
