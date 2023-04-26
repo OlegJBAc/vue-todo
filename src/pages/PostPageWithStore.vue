@@ -1,38 +1,39 @@
 <template>
   <div>
-    <h1>{{ $store.state.isAuth ? 'Пользователь авторизован' : 'Авторизуйтесь пожалуйста' }}</h1>
-    <h1>{{ $store.getters.doubleLikes }}</h1>
-    <div>
-      <my-button @click="$store.commit('incrementLikes')">Лайк</my-button>
-      <my-button @click="$store.commit('decrementLikes')">Дизлайк</my-button>
+    <h1>{{ $store.state.post.limit }}</h1>
+<!--    <h1>{{ $store.state.isAuth ? 'Пользователь авторизован' : 'Авторизуйтесь пожалуйста' }}</h1>-->
+<!--    <h1>{{ $store.getters.doubleLikes }}</h1>-->
+<!--    <div>-->
+<!--      <my-button @click="$store.commit('incrementLikes')">Лайк</my-button>-->
+<!--      <my-button @click="$store.commit('decrementLikes')">Дизлайк</my-button>-->
 
-    </div>
-    <h1>Страница с постами</h1>
-    <my-input
-        v-model="searchQuery"
-        placeholder="Поиск..."
-        v-focus
-    />
+<!--    </div>-->
+<!--    <h1>Страница с постами</h1>-->
+<!--    <my-input-->
+<!--        v-model="searchQuery"-->
+<!--        placeholder="Поиск..."-->
+<!--        v-focus-->
+<!--    />-->
 
-    <div class="app__buttons">
-      <my-button @click="showDialog">Создать пост</my-button>
-      <my-select
-          v-model="selectedSort"
-          :options="sortOptions"
-      />
-    </div>
+<!--    <div class="app__buttons">-->
+<!--      <my-button @click="showDialog">Создать пост</my-button>-->
+<!--      <my-select-->
+<!--          v-model="selectedSort"-->
+<!--          :options="sortOptions"-->
+<!--      />-->
+<!--    </div>-->
 
-    <my-button @click="fetchPosts" style="margin: 15px 0">Получить посты</my-button>
-    <my-dialog v-model:show="dialogVisible">
-      <PostForm @createPost="createPost"/>
-    </my-dialog>
+<!--    <my-button @click="fetchPosts" style="margin: 15px 0">Получить посты</my-button>-->
+<!--    <my-dialog v-model:show="dialogVisible">-->
+<!--      <PostForm @createPost="createPost"/>-->
+<!--    </my-dialog>-->
 
-    <PostList :posts="sortedAndSearchedPosts"
-              @remove="removePost"
-              v-if="!isPostLoading"
-    />
-    <div v-else>Идёт загрузка постов...</div>
-    <div v-intersection="loadMorePosts" class="observer"></div>
+<!--    <PostList :posts="sortedAndSearchedPosts"-->
+<!--              @remove="removePost"-->
+<!--              v-if="!isPostLoading"-->
+<!--    />-->
+<!--    <div v-else>Идёт загрузка постов...</div>-->
+<!--    <div v-intersection="loadMorePosts" class="observer"></div>-->
     <!--    <div class="page__wrapper">-->
     <!--      <div v-for="pageNumber in totalPages"-->
     <!--           :key="pageNumber"-->
@@ -68,18 +69,7 @@ export default {
   },
   data() {
     return {
-      posts: [],
-      dialogVisible: false,
-      isPostLoading: false,
-      selectedSort: 'title',
-      searchQuery: '',
-      page: 1,
-      limit: 10,
-      totalPages: 0,
-      sortOptions: [
-        {value: 'title', name: 'По названию'},
-        {value: 'body', name: 'По содержимому'},
-      ],
+
     }
   },
   methods: {
@@ -96,46 +86,14 @@ export default {
     // changePage(pageNumber) {
     //   this.page = pageNumber
     // },
-    async fetchPosts() {
-      try {
-        this.isPostLoading = true
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-          params: {
-            _page: this.page,
-            _limit: this.limit,
-          }
-        })
-        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-        this.posts = response.data
-      } catch (e) {
-        console.error('Request failed')
-      } finally {
-        this.isPostLoading = false
-      }
-    },
-    async loadMorePosts() {
-      try {
-        this.page += 1
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-          params: {
-            _page: this.page,
-            _limit: this.limit,
-          }
-        })
-        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-        this.posts = [...this.posts, ...response.data]
-      } catch (e) {
-        console.error('Request failed')
-      }
-    },
+
+
   },
   computed: {
     // sortedPosts() {
     //   return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
     // },
-    sortedAndSearchedPosts() {
-      return this.posts.filter(post => post[this.selectedSort].toLowerCase().includes(this.searchQuery.toLowerCase()))
-    },
+
   }, //Не мутирует исходный массив, потому что развернули в новый массив и его сортируем.
   watch: {
     // selectedSort(newValue) {
@@ -147,7 +105,7 @@ export default {
 
   },
   mounted() {
-    this.fetchPosts()
+    // this.fetchPosts()
   },
 }
 </script>
