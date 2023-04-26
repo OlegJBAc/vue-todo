@@ -19,6 +19,9 @@ export const postModule = {
       }
     },
     getters: {
+        // sortedPosts() {
+        //   return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+        // }, //Не мутирует исходный массив, потому что развернули в новый массив и его сортируем.
         sortedAndSearchedPosts(state) {
             return state.posts.filter(post => post[state.selectedSort].toLowerCase().includes(state.searchQuery.toLowerCase()))
         },
@@ -82,6 +85,7 @@ export const postModule = {
             }
         },
     },
+    namespaced: true,
 
 }
 
