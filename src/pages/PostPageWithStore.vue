@@ -3,7 +3,8 @@
         <h1>{{ $store.state.isAuth ? 'Пользователь авторизован' : 'Авторизуйтесь пожалуйста' }}</h1>
         <h1>Страница с постами</h1>
         <my-input
-            v-model="searchQuery"
+            :model-value="searchQuery"
+            @update.model-value="setSearchQuery"
             placeholder="Поиск..."
             v-focus
         />
@@ -11,7 +12,8 @@
         <div class="app__buttons">
             <my-button @click="showDialog">Создать пост</my-button>
             <my-select
-                v-model="selectedSort"
+                :model-value="selectedSort"
+                @update.model-value="setSelectedSort"
                 :options="sortOptions"
             />
         </div>
@@ -68,6 +70,8 @@ export default {
     methods: {
         ...mapMutations({
             setPage: 'post/setPage',
+            setSearchQuery: 'post/setSearchQuery',
+            setSelectedSort: 'post/setSelectedSort',
         }),
         ...mapActions({
             fetchPosts: 'post/fetchPosts',

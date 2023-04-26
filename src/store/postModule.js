@@ -50,9 +50,9 @@ export const postModule = {
         },
     },
     actions: {
-        async fetchPosts(state, commit) {
+        async fetchPosts({ state, commit }) {
             try {
-                commit('setLoading', true)
+                commit('setIsPostLoading', true)
                 const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
                     params: {
                         _page: state.page,
@@ -64,11 +64,11 @@ export const postModule = {
             } catch (e) {
                 console.error('Request failed')
             } finally {
-                commit('setLoading', false)
+                commit('setIsPostLoading', false)
 
             }
         },
-        async loadMorePosts(state, commit) {
+        async loadMorePosts({ state, commit }) {
             try {
                 commit('setPage', state.page + 1)
 
