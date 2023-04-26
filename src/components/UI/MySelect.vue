@@ -1,6 +1,6 @@
 <template>
   <select :value="modelValue" @change="changeOptions">
-    <option value="">Выберите из списка</option>
+    <option value="title">Выберите из списка</option>
     <option v-for="option in options"
             :key="option.value"
             :value="option.value"
