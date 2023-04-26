@@ -2,14 +2,15 @@
   <form @submit.prevent>
     <h4>Создание поста</h4>
     <my-input v-model.trim="post.title"
-           class="input"
-           type="text"
-           placeholder="Название"
+              v-focus
+              class="input"
+              type="text"
+              placeholder="Название"
     />
     <my-input v-model.trim="post.body"
-           class="input"
-           type="text"
-           placeholder="Описание"
+              class="input"
+              type="text"
+              placeholder="Описание"
     />
     <my-button class="btn" @click="createPost">Создать</my-button>
   </form>
@@ -48,7 +49,6 @@ form {
   display: flex;
   flex-direction: column;
 }
-
 
 
 </style>
