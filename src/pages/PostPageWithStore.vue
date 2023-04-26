@@ -1,7 +1,13 @@
 <template>
   <div>
-    <h1>Страница с постами</h1>
+    <h1>{{ $store.state.isAuth ? 'Пользователь авторизован' : 'Авторизуйтесь пожалуйста' }}</h1>
+    <h1>{{ $store.getters.doubleLikes }}</h1>
+    <div>
+      <my-button @click="$store.commit('incrementLikes')">Лайк</my-button>
+      <my-button @click="$store.commit('decrementLikes')">Дизлайк</my-button>
 
+    </div>
+    <h1>Страница с постами</h1>
     <my-input
         v-model="searchQuery"
         placeholder="Поиск..."
@@ -51,7 +57,7 @@ import PostForm from "../components/PostForm.vue";
 import axios from "axios";
 
 export default {
-  name: "PostsPage",
+  name: "PostsPageWithStore",
   components: {
     MyInput,
     MySelect,
