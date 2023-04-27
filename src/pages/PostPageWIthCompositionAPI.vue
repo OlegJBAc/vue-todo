@@ -1,43 +1,30 @@
 <template>
     <div>
         <h1>Страница с постами</h1>
-
-<!--        <my-input-->
-<!--            v-model="searchQuery"-->
-<!--            placeholder="Поиск..."-->
-<!--            v-focus-->
-<!--        />-->
-
-<!--        <div class="app__buttons">-->
-<!--            <my-button @click="showDialog">Создать пост</my-button>-->
-<!--            <my-select-->
-<!--                v-model="selectedSort"-->
-<!--                :options="sortOptions"-->
-<!--            />-->
-<!--        </div>-->
-
-<!--        <my-button @click="fetchPosts" style="margin: 15px 0">Получить посты</my-button>-->
-<!--        <my-dialog v-model:show="dialogVisible">-->
-<!--            <PostForm @createPost="createPost"/>-->
-<!--        </my-dialog>-->
-
-<!--        <PostList :posts="sortedAndSearchedPosts"-->
-<!--                  @remove="removePost"-->
-<!--                  v-if="!isPostLoading"-->
-<!--        />-->
-<!--        <div v-else>Идёт загрузка постов...</div>-->
-<!--        <div v-intersection="loadMorePosts" class="observer"></div>-->
-        <!--    <div class="page__wrapper">-->
-        <!--      <div v-for="pageNumber in totalPages"-->
-        <!--           :key="pageNumber"-->
-        <!--           class="page"-->
-        <!--           :class="{-->
-        <!--             'current-page': page === pageNumber,-->
-        <!--           }"-->
-        <!--           @click="changePage(pageNumber)"-->
-        <!--      >{{ pageNumber }}-->
-        <!--      </div>-->
-        <!--    </div>-->
+        <my-input
+            v-model="searchQuery"
+            placeholder="Поиск...."
+            v-focus
+        />
+        <div class="app__btns">
+            <my-button
+            >
+                Создать пользователя
+            </my-button>
+            <my-select
+                v-model="selectedSort"
+                :options="sortOptions"
+            />
+        </div>
+        <my-dialog v-model:show="dialogVisible">
+            <post-form
+            />
+        </my-dialog>
+        <post-list
+            :posts="sortedAndSearchedPosts"
+            v-if="!isPostsLoading"
+        />
+        <div v-else>Идет загрузка...</div>
     </div>
 </template>
 
@@ -49,6 +36,8 @@ import MyDialog from "../components/UI/MyDialog.vue";
 import PostList from "../components/PostList.vue";
 import PostForm from "../components/PostForm.vue";
 import {ref} from "vue";
+import {usePosts} from "../hooks/usePosts.js";
+import {useSortedAndSearchedPosts} from "../hooks/useSortedAndSearchedPosts.js";
 
 export default {
     name: "PostsPage",
@@ -70,12 +59,16 @@ export default {
         }
     },
     setup(props) {
-        const { totalPages, isPostLoading, posts } = usePosts(10)
-
+        const {posts, totalPages, isPostsLoading} = usePosts(10);
+        const {searchQuery, sortedAndSearchedPosts} = useSortedAndSearchedPosts(posts)
         return {
-
+            posts,
+            totalPages,
+            isPostsLoading,
+            searchQuery,
+            sortedAndSearchedPosts,
         }
-    },
+    }
 }
 </script>
 
