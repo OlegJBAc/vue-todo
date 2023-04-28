@@ -7,7 +7,11 @@ export function useSortedAndSearchedPosts(sortedPosts) {
         return sortedPosts.value.filter(post => post.title.toLowerCase().includes(searchQuery.value.toLowerCase()))
     })
 
+    const test = computed(() => {
+        return sortedPosts
+    })
+
     return {
-        searchQuery, sortedAndSearchedPosts
+        searchQuery, sortedAndSearchedPosts, test
     }
 };

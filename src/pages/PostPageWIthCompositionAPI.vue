@@ -6,13 +6,15 @@
             placeholder="Поиск...."
             v-focus
         />
+        <div>{{ test }}</div>
+
         <div class="app__btns">
             <my-button
             >
                 Создать пользователя
             </my-button>
             <my-select
-                v-model="selectedSort"
+
                 :options="sortOptions"
             />
         </div>
@@ -25,6 +27,7 @@
             v-if="!isPostsLoading"
         />
         <div v-else>Идет загрузка...</div>
+        <div v-intersection="loadMorePosts" class="observer"></div>
     </div>
 </template>
 
@@ -38,6 +41,8 @@ import PostForm from "../components/PostForm.vue";
 import {ref} from "vue";
 import {usePosts} from "../hooks/usePosts.js";
 import {useSortedAndSearchedPosts} from "../hooks/useSortedAndSearchedPosts.js";
+import axios from "axios";
+import {useLoadMorePosts} from "../hooks/useLoadMorePosts.js";
 
 export default {
     name: "PostsPage",
@@ -58,15 +63,28 @@ export default {
             ],
         }
     },
+
+
     setup(props) {
-        const {posts, totalPages, isPostsLoading} = usePosts(10);
-        const {searchQuery, sortedAndSearchedPosts} = useSortedAndSearchedPosts(posts)
+
+        const limit = ref(10)
+
+        const {posts, totalPages, isPostsLoading, page} = usePosts(limit);
+        const {searchQuery, sortedAndSearchedPosts, test} = useSortedAndSearchedPosts(posts)
+
+console.log(page)
+
+        const {loadMorePosts} = useLoadMorePosts({ posts, page, limit, totalPages })
+
         return {
             posts,
             totalPages,
             isPostsLoading,
             searchQuery,
             sortedAndSearchedPosts,
+            page,
+            test,
+            loadMorePosts,
         }
     }
 }
